@@ -28,3 +28,10 @@ The standard library's `math` module does not include spherical Bessel functions
 - `spherical_yn(n, 0.0)` raises `ValueError`; `y_n` is genuinely singular at the origin.
 - `n` must be a non-negative `int`; a float or negative value raises.
 - `j_n(-x) = (-1)^n j_n(x)` is respected; `y_n` is handled through the recurrence which inherits the sign naturally.
+
+## Design notes
+
+The window stores values eagerly rather than keeping running aggregates. Running
+sums drift with floating point over long streams, and recomputing from a small
+buffer is cheap enough that the drift is not worth the speed.
+
